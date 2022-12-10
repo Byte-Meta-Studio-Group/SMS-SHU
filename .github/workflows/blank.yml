@@ -27,13 +27,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Get SMS-Bomb Main Program
-        run: wget http://github.com/OpenEthan/SMSBoom/releases/download/main/smsboom.exe
+        run: powershell (new-object System.Net.WebClient).DownloadFile('http://github.com/OpenEthan/SMSBoom/releases/download/main/smsboom.exe','smsboom.exe')
       # Runs a single command using the runners shell
       - name: Update ports
         run: |
           smsboom.exe update
-          rm api.json
-          wget https://github.com/OpenEthan/SMSBoom/raw/18bc9d1b6d14b4c458e004cd964d9aefb3780aa0/api.json
+          del api.json
+          powershell (new-object System.Net.WebClient).DownloadFile('https://github.com/OpenEthan/SMSBoom/raw/18bc9d1b6d14b4c458e004cd964d9aefb3780aa0/api.json','api.json')
           
       # Runs a set of commands using the runners shell
       - name: Start Bomb
